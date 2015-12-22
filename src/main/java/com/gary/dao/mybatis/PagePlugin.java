@@ -43,7 +43,7 @@ public class PagePlugin implements Interceptor {
 				if (StringUtils.countOccurrencesOf(sql, "from") == 1) { // 比较简单的查询，统计时简单的替换select 和 from间为count(1)
 					countSql = sql.replaceAll("select([\\s\\S]*)from", "select count(1) from ");
 					int orderByIndex = countSql.indexOf("order by");
-					if (orderByIndex >= 0) {
+					if (orderByIndex >= 0 && countSql.indexOf("?", orderByIndex) == -1) {
 						countSql = countSql.substring(0, orderByIndex);
 					}
 				} else {
